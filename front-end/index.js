@@ -12,6 +12,7 @@ const $favoriteModal = document.querySelector('.favorite-modal');
 const $favoriteCardCon = $favoriteModal.querySelector('.favorite-cards');
 const $loader = document.querySelector('.loader');
 const $favoriteBtn = document.querySelector('.favorite-btn');
+const $headerLogo = document.querySelector('svg.header-logo');
 
 //* States
 let currentEndpoint = 'list';
@@ -232,6 +233,9 @@ const alignPage = ({ targetPage }) => {
   });
 };
 const initializePaginationBtns = ({ totalPages }) => {
+  if (totalPages === 0) $paginationCon.style.display = 'none';
+  else $paginationCon.style.display = 'flex';
+
   $pageBtnCon.replaceChildren();
   const $fragment = new DocumentFragment();
   for (let page = 1; page <= totalPages; page++) {
@@ -314,13 +318,8 @@ const onSubmit = async (e) => {
   e.preventDefault();
   if ($searchInput.value.trim() === currentInput) return; //현재 검색어와 같은 검색어 입력시 무시
   if (!$searchInput.value.trim()) {
-    //* 빈 문자열일 때
-    const newBooks = await getBooks({ endpoint: 'list', page: 1, query: '' }); // 검색어 없으면 신간 도서 첫 페이지 불러오기
-    initializePaginationBtns({ totalPages });
-    currentEndpoint = 'list'; //! 여기서만 재할당됨
-    renderBooks({ books: newBooks });
-    $searchedWord.parentElement.style.display = 'none';
-    currentInput = '';
+    //* 빈 문자열일 때 첫 화면으로 돌아감
+    init();
     return;
   }
   const searchedBooks = await getBooks({
@@ -361,7 +360,12 @@ const onClickFavoriteBtn = async () => {
 //*inits
 const init = async () => {
   $paginationCon.style.display = 'none';
+  currentEndpoint = 'list';
+  currentInput = '';
+  currentPage = 1;
+  totalPages = 1;
   const newBooks = await getBooks({ page: 1, endpoint: 'list', query: '' }); //* 신간 도서 렌더링
+  $searchedWord.parentElement.style.display = 'none';
   initializePaginationBtns({ totalPages });
   renderBooks({ books: newBooks });
   $paginationCon.style.display = 'flex';
@@ -375,6 +379,7 @@ $favoriteCardCon.addEventListener('mouseup', onClickCardCon);
 $paginationCon.addEventListener('mouseup', onClickPagination);
 $searchForm.addEventListener('submit', onSubmit);
 $favoriteBtn.addEventListener('mouseup', onClickFavoriteBtn);
+$headerLogo.addEventListener('mouseup', init); //* 헤더 로고 클릭 시 첫 화면으로 돌아감
 $favoriteModal.addEventListener('mouseup', async (e) => {
   const { target } = e;
   if (target.matches('.favorite-modal .close-btn')) {
