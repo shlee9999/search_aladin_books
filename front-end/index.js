@@ -254,9 +254,10 @@ const onClickCardCon = (e) => {
   if (target.matches('.heart-btn')) {
     //* onClickHeartBtn
     if (target.classList.contains('fa-regular')) {
-      //* 일반 상품
-      target.classList.replace('fa-regular', 'fa-solid');
-      bookStorage.addBook({ isbn13: target.closest('li.card').dataset.isbn13 }); //* 찜 목록에 추가
+      //* 찜 안한 상품
+      bookStorage.addBook({
+        isbn13: target.closest('li.card').dataset.isbn13, //* 찜 목록에 추가. 20개 넘어가면 false 반환 및 찜 안됨
+      }) && target.classList.replace('fa-regular', 'fa-solid');
     } else if (target.classList.contains('fa-solid')) {
       //* 이미 찜한 상품
       target.classList.replace('fa-solid', 'fa-regular');
