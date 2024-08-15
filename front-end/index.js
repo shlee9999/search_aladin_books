@@ -18,7 +18,6 @@ let currentEndpoint = 'list';
 let currentPage = 1;
 let totalPages = 1; //! 임시. 이후 api 호출 시 재할당
 let currentInput = '';
-
 //* Render Functions
 const createCardInnerHTML = ({
   author,
@@ -374,9 +373,15 @@ $favoriteCardCon.addEventListener('mouseup', onClickCardCon);
 $paginationCon.addEventListener('mouseup', onClickPagination);
 $searchForm.addEventListener('submit', onSubmit);
 $favoriteBtn.addEventListener('mouseup', onClickFavoriteBtn);
-$favoriteModal.addEventListener('mouseup', (e) => {
+$favoriteModal.addEventListener('mouseup', async (e) => {
   const { target } = e;
   if (target.matches('.favorite-modal .close-btn')) {
     closeFavoriteModal();
+    const newBooks = await getBooks({
+      page: currentPage,
+      endpoint: currentEndpoint,
+      query: currentInput,
+    }); //* 찜 해제 도서 동기화를 위해 찜 목록에서 나오면 다시 렌더링해야함
+    renderBooks({ books: newBooks });
   }
 });
