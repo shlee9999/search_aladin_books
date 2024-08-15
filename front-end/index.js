@@ -10,7 +10,6 @@ const $searchedWord = document.querySelector('.searched-word');
 const $modalWrap = document.querySelector('.modal-wrap');
 const $favoriteModal = document.querySelector('.favorite-modal');
 const $favoriteCardCon = $favoriteModal.querySelector('.favorite-cards');
-console.log($favoriteCardCon);
 const $loader = document.querySelector('.loader');
 const $favoriteBtn = document.querySelector('.favorite-btn');
 
@@ -76,6 +75,12 @@ const createCardComponent = ({
     cover,
     link,
   });
+  if (bookStorage.includes({ isbn13 })) {
+    // 찜한건 하트표시
+    $card
+      .querySelector('.heart-btn')
+      .classList.replace('fa-regular', 'fa-solid');
+  }
   return $card;
 };
 const renderBooks = ({ books, $parent = $cardCon }) => {
@@ -92,7 +97,6 @@ const renderBooks = ({ books, $parent = $cardCon }) => {
       cover,
       link,
     } = book;
-    //todo card 만들기
     const $card = createCardComponent({
       isbn13,
       author,
@@ -103,12 +107,6 @@ const renderBooks = ({ books, $parent = $cardCon }) => {
       cover,
       link,
     });
-    if (bookStorage.includes({ isbn13 })) {
-      // 찜한건 하트표시
-      $card
-        .querySelector('.heart-btn')
-        .classList.replace('fa-regular', 'fa-solid');
-    }
     $fragment.appendChild($card);
   });
   $parent.appendChild($fragment);
@@ -252,7 +250,7 @@ const initializePaginationBtns = ({ totalPages }) => {
 //* Event Handlers
 const onClickCardCon = (e) => {
   const { target } = e;
-  if (!target.closest('.cards')) return;
+  if (!(target.closest('.cards') || target.closest('.favorite-cards'))) return;
   if (target.matches('.heart-btn')) {
     //* onClickHeartBtn
     if (target.classList.contains('fa-regular')) {
@@ -373,6 +371,7 @@ init();
 
 //* Event Listeners
 $cardCon.addEventListener('mouseup', onClickCardCon);
+$favoriteCardCon.addEventListener('mouseup', onClickCardCon);
 $paginationCon.addEventListener('mouseup', onClickPagination);
 $searchForm.addEventListener('submit', onSubmit);
 $favoriteBtn.addEventListener('mouseup', onClickFavoriteBtn);
