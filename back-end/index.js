@@ -66,7 +66,7 @@ app.get('/api/lookup', async (req, res) => {
     console.log(req.query);
     const { itemId } = req.query;
     console.log(itemId);
-    const response = axios.get(API_URL + 'ItemLookUp.aspx', {
+    const response = await axios.get(API_URL + 'ItemLookUp.aspx', {
       params: {
         ttbkey: API_TTB, //! 키값 필수
         ItemId: itemId,
@@ -74,7 +74,7 @@ app.get('/api/lookup', async (req, res) => {
         Output: 'JS',
       },
     });
-    console.log(response.data);
+    console.log('response data', response.data);
     res.json(response.data);
   } catch (error) {
     console.error('Error:', error.message);
