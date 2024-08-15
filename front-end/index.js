@@ -139,13 +139,19 @@ const generateUrl = ({
   return `${url}${endpoint}?${params.toString()}`;
 };
 
-const getBooks = async ({ endpoint, query, page, itemId }) => {
+const getBooks = async ({
+  endpoint,
+  query,
+  page,
+  itemId,
+  triggerLoader = true,
+}) => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  renderLoader();
+  if (triggerLoader) renderLoader();
   try {
     const res = await fetch(generateUrl({ endpoint, query, page, itemId }));
     const data = await res.json();
-    removeLoader();
+    if (triggerLoader) removeLoader();
     totalPages = data.totalResults / BOOKS_PER_PAGE;
     console.log(data);
     return data.item;
@@ -291,8 +297,37 @@ const onSubmit = async (e) => {
 const onClickFavoriteBtn = async () => {
   const favoriteBookIsbns = bookStorage.getBooks();
   console.log(favoriteBookIsbns);
-  openFavoriteModal();
-  //todo 안불러와짐
+  //todo map으로 promise all
+  renderLoader();
+  Promise.all(
+    bookStorage
+      .getBooks()
+      .map((isbn13) =>
+        getBooks({ endpoint: 'lookup', itemId: isbn13, triggerLoader: false })
+      )
+  )
+    .then((arr) => {
+      arr.forEach((res) => {
+        const bookInfo = res[0];
+        const {
+          isbn13,
+          author,
+          description,
+          priceStandard,
+          publisher,
+          title,
+          cover,
+          link,
+        } = bookInfo;
+      });
+      removeLoader(); //* loader 종료 후 modal 열어야 modal wrapper 안 사라짐.
+      openFavoriteModal();
+    })
+    .catch((error) => {
+      removeLoader();
+      console.error(error);
+    });
+
   const favoriteBooks = await getBooks({
     endpoint: 'lookup',
     itemId: favoriteBookIsbns[0],
