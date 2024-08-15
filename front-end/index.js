@@ -37,7 +37,7 @@ const createCardInnerHTML = ({
     <p class="desc">
       ${
         description
-          ? `${description.slice(0, 45)}...` // 45~100?
+          ? `${description.slice(0, 100)}...` // 45~100?
           : '이 책은 설명이 제공되지 않습니다.'
       }</p>
     </div>
@@ -132,7 +132,7 @@ const closeFavoriteModal = () => {
 };
 //* API Infos
 const url = 'http://localhost:8080/api/';
-const BOOKS_PER_PAGE = 16;
+const BOOKS_PER_PAGE = 24;
 
 //* API Functions
 /**
