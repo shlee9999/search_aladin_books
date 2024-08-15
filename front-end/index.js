@@ -193,7 +193,7 @@ const getBooks = async ({
     const res = await fetch(generateUrl({ endpoint, query, page, itemId }));
     const data = await res.json();
     if (triggerLoader) removeLoader();
-    totalPages = data.totalResults / BOOKS_PER_PAGE;
+    totalPages = Math.ceil(data.totalResults / BOOKS_PER_PAGE);
     // console.log(data);
     return data.item;
   } catch (error) {
@@ -224,6 +224,8 @@ const alignPage = ({ targetPage }) => {
   [...$pageBtnCon.children].forEach(
     ($pageBtn) => ($pageBtn.style.display = 'none')
   );
+
+  console.log(newPaginationNumbers, totalPages);
   newPaginationNumbers.forEach((page) => {
     if ($pageBtnCon.children[page - 1])
       $pageBtnCon.children[page - 1].style.display = 'inline-block';
