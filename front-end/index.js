@@ -176,7 +176,7 @@ const generateUrl = ({
     case 'lookup':
       if (itemId) params.append('itemId', itemId);
   }
-  console.log({ params });
+  // console.log({ params });
   // 기본 URL과 엔드포인트를 결합하고 쿼리 문자열을 추가
   return `${url}${endpoint}?${params.toString()}`;
 };
@@ -195,7 +195,7 @@ const getBooks = async ({
     const data = await res.json();
     if (triggerLoader) removeLoader();
     totalPages = data.totalResults / BOOKS_PER_PAGE;
-    console.log(data);
+    // console.log(data);
     return data.item;
   } catch (error) {
     console.error(error);
@@ -222,7 +222,6 @@ const alignPage = ({ targetPage }) => {
     currentPage,
     totalPages,
   });
-  console.log({ currentPage, newPaginationNumbers });
   [...$pageBtnCon.children].forEach(
     ($pageBtn) => ($pageBtn.style.display = 'none')
   );
@@ -312,7 +311,6 @@ const onClickPagination = async (e) => {
 
 const onSubmit = async (e) => {
   e.preventDefault();
-  console.log($searchInput.value.trim(), currentInput);
   if ($searchInput.value.trim() === currentInput) return; //현재 검색어와 같은 검색어 입력시 무시
   if (!$searchInput.value.trim()) {
     //* 빈 문자열일 때
