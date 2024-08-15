@@ -19,8 +19,65 @@ let totalPages = 1; //! 임시. 이후 api 호출 시 재할당
 let currentInput = '';
 
 //* Render Functions
-const renderBooks = (books) => {
-  $cardCon.replaceChildren();
+const createCardInnerHTML = ({
+  author,
+  description,
+  priceStandard,
+  publisher,
+  title,
+  cover,
+  link,
+}) => ` 
+  <div class="img-wrap">
+    <img
+      src="${cover}"
+      alt="도서 이미지"
+    />
+    <div class="desc-wrap">
+    <p class="desc">
+      ${
+        description
+          ? `${description.slice(0, 45)}...` // 45~100?
+          : '이 책은 설명이 제공되지 않습니다.'
+      }</p>
+    </div>
+  </div>
+  <div class="tit">${title}</div>
+  <div class="price">${priceStandard}원</div>
+  <div class="card-footer">
+    <span class="author">${author.split(',')[0].split(' ')[0]}</span>
+    <span class="publisher">${publisher}</span>
+    <i class="fa-regular fa-heart heart-btn btn"></i>
+    <!-- todo 클릭 시 찜 -->
+  </div>
+  <a href="${link}" target="_blank"></a>
+`;
+const createCardComponent = ({
+  isbn13,
+  author,
+  description,
+  priceStandard,
+  publisher,
+  title,
+  cover,
+  link,
+}) => {
+  const $card = document.createElement('li');
+  $card.classList.add('card');
+  $card.dataset.isbn13 = isbn13;
+  $card.innerHTML = createCardInnerHTML({
+    author,
+    description,
+    priceStandard,
+    publisher,
+    title,
+    cover,
+    link,
+  });
+  return $card;
+};
+const renderBooks = (books, $parent = $cardCon) => {
+  $parent.replaceChildren();
   const $fragment = new DocumentFragment();
   books.forEach((book) => {
     const {
@@ -33,34 +90,17 @@ const renderBooks = (books) => {
       cover,
       link,
     } = book;
-    const $card = document.createElement('li');
-    $card.classList.add('card');
-    $card.dataset.isbn13 = isbn13;
-    $card.innerHTML = ` 
-            <div class="img-wrap">
-              <img
-                src="${cover}"
-                alt="도서 이미지"
-              />
-              <div class="desc-wrap">
-              <p class="desc">
-                 ${
-                   description
-                     ? `${description.slice(0, 45)}...` // 45~100?
-                     : '이 책은 설명이 제공되지 않습니다.'
-                 }</p>
-              </div>
-            </div>
-            <div class="tit">${title}</div>
-            <div class="price">${priceStandard}원</div>
-            <div class="card-footer">
-              <span class="author">${author.split(',')[0].split(' ')[0]}</span>
-              <span class="publisher">${publisher}</span>
-              <i class="fa-regular fa-heart heart-btn btn"></i>
-              <!-- todo 클릭 시 찜 -->
-            </div>
-            <a href="${link}" target="_blank"></a>
-         `;
+    //todo card 만들기
+    const $card = createCardComponent({
+      isbn13,
+      author,
+      description,
+      priceStandard,
+      publisher,
+      title,
+      cover,
+      link,
+    });
     if (bookStorage.includes({ isbn13 })) {
       // 찜한건 하트표시
       $card
@@ -69,7 +109,7 @@ const renderBooks = (books) => {
     }
     $fragment.appendChild($card);
   });
-  $cardCon.appendChild($fragment);
+  $parent.appendChild($fragment);
 };
 
 const renderLoader = () => {
