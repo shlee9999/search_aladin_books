@@ -9,6 +9,8 @@ const $searchInput = $searchForm[0];
 const $searchedWord = document.querySelector('.searched-word');
 const $modalWrap = document.querySelector('.modal-wrap');
 const $favoriteModal = document.querySelector('.favorite-modal');
+const $favoriteCardCon = $favoriteModal.querySelector('.favorite-cards');
+console.log($favoriteCardCon);
 const $loader = document.querySelector('.loader');
 const $favoriteBtn = document.querySelector('.favorite-btn');
 
@@ -76,7 +78,7 @@ const createCardComponent = ({
   });
   return $card;
 };
-const renderBooks = (books, $parent = $cardCon) => {
+const renderBooks = ({ books, $parent = $cardCon }) => {
   $parent.replaceChildren();
   const $fragment = new DocumentFragment();
   books.forEach((book) => {
@@ -124,10 +126,12 @@ const removeLoader = () => {
 const openFavoriteModal = () => {
   $modalWrap.classList.add('on');
   $favoriteModal.classList.add('on');
+  document.body.style.overflowY = 'hidden';
 };
 const closeFavoriteModal = () => {
   $modalWrap.classList.remove('on');
   $favoriteModal.classList.remove('on');
+  document.body.style.overflowY = 'auto';
 };
 //* API Infos
 const url = 'http://localhost:8080/api/';
@@ -274,7 +278,7 @@ const onClickPagination = async (e) => {
       page,
       query: currentInput,
     });
-    renderBooks(fetchedBooks);
+    renderBooks({ books: fetchedBooks });
     $paginationCon.querySelector('.page-btn.on').classList.remove('on');
     target.classList.add('on');
     alignPage({ targetPage: page });
@@ -289,7 +293,7 @@ const onClickPagination = async (e) => {
     });
     $prevPageBtn.classList.remove('on');
     $prevPageBtn.previousElementSibling.classList.add('on');
-    renderBooks(fetchedBooks);
+    renderBooks({ books: fetchedBooks });
     alignPage({ targetPage: currentPage - 1 });
   }
   if (target.matches('.next')) {
@@ -302,7 +306,7 @@ const onClickPagination = async (e) => {
     });
     $prevPageBtn.classList.remove('on');
     $prevPageBtn.nextElementSibling.classList.add('on');
-    renderBooks(fetchedBooks);
+    renderBooks({ books: fetchedBooks });
     alignPage({ targetPage: currentPage + 1 });
   }
 };
@@ -316,7 +320,7 @@ const onSubmit = async (e) => {
     const newBooks = await getBooks({ endpoint: 'list', page: 1, query: '' }); // 검색어 없으면 신간 도서 첫 페이지 불러오기
     initializePaginationBtns({ totalPages });
     currentEndpoint = 'list'; //! 여기서만 재할당됨
-    renderBooks(newBooks);
+    renderBooks({ books: newBooks });
     $searchedWord.parentElement.style.display = 'none';
     currentInput = '';
     return;
@@ -328,16 +332,13 @@ const onSubmit = async (e) => {
   });
   initializePaginationBtns({ totalPages });
   currentEndpoint = 'search'; //! 여기서만 재할당됨
-  renderBooks(searchedBooks);
+  renderBooks({ books: searchedBooks });
   $searchedWord.parentElement.style.display = 'block';
   $searchedWord.textContent = $searchInput.value.trim();
   currentInput = $searchInput.value.trim();
   $searchInput.value = '';
 };
 const onClickFavoriteBtn = async () => {
-  const favoriteBookIsbns = bookStorage.getBooks();
-  console.log(favoriteBookIsbns);
-  //todo map으로 promise all
   renderLoader();
   Promise.all(
     bookStorage
@@ -347,18 +348,9 @@ const onClickFavoriteBtn = async () => {
       )
   )
     .then((arr) => {
-      arr.forEach((res) => {
-        const bookInfo = res[0];
-        const {
-          isbn13,
-          author,
-          description,
-          priceStandard,
-          publisher,
-          title,
-          cover,
-          link,
-        } = bookInfo;
+      renderBooks({
+        books: arr.map((res) => res[0]),
+        $parent: $favoriteCardCon,
       });
       removeLoader(); //* loader 종료 후 modal 열어야 modal wrapper 안 사라짐.
       openFavoriteModal();
@@ -367,19 +359,13 @@ const onClickFavoriteBtn = async () => {
       removeLoader();
       console.error(error);
     });
-
-  const favoriteBooks = await getBooks({
-    endpoint: 'lookup',
-    itemId: favoriteBookIsbns[0],
-  });
-  console.log(favoriteBooks);
 };
 //*inits
 const init = async () => {
   $paginationCon.style.display = 'none';
   const newBooks = await getBooks({ page: 1, endpoint: 'list', query: '' }); //* 신간 도서 렌더링
   initializePaginationBtns({ totalPages });
-  renderBooks(newBooks);
+  renderBooks({ books: newBooks });
   $paginationCon.style.display = 'flex';
   $searchInput.focus();
 };
@@ -390,3 +376,9 @@ $cardCon.addEventListener('mouseup', onClickCardCon);
 $paginationCon.addEventListener('mouseup', onClickPagination);
 $searchForm.addEventListener('submit', onSubmit);
 $favoriteBtn.addEventListener('mouseup', onClickFavoriteBtn);
+$favoriteModal.addEventListener('mouseup', (e) => {
+  const { target } = e;
+  if (target.matches('.favorite-modal .close-btn')) {
+    closeFavoriteModal();
+  }
+});

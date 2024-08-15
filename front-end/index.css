@@ -293,15 +293,55 @@ li.card .price {
   left: 50%;
   top: 50%;
   translate: -50% -50%;
-  background-color: tomato;
+  background-color: var(--f-color);
   width: 100px;
   height: 100px;
   border-radius: 16px;
+  overflow: hidden;
+}
+.modal i.close-btn {
+  position: absolute;
+  top: 50%;
+  right: 25px;
+  /* translate: 0 -50%; */
 }
 .modal-wrap.on,
 .modal.on {
   opacity: 1;
   pointer-events: all;
+}
+.favorite-modal {
+  width: 80%;
+  height: 80%;
+  overflow-y: auto;
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.favorite-modal::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.favorite-modal {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.favorite-modal > h2 {
+  padding: 20px;
+  position: sticky;
+  top: 0;
+  text-align: center;
+  background-color: var(--f-color);
+  margin-bottom: 20px;
+  z-index: 10;
+}
+.favorite-modal > .favorite-cards {
+  margin: auto;
+  width: 100%;
+  padding: 0 20px 20px;
+  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(200px, 250px));
+  justify-content: center;
 }
 .loader {
   position: fixed;
@@ -330,6 +370,9 @@ li.card .price {
   }
 }
 @media screen and (max-width: 850px) {
+  .favorite-modal > .favorite-cards {
+    grid-template-columns: repeat(2, minmax(100px, 250px));
+  }
   li.card {
     font-size: 0.8rem;
   }
