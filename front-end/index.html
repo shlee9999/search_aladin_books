@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BookBook!</title>
+    <link rel="icon" href="./img/logo.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Sans+KR:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="index.css" />
+    <script
+      src="https://kit.fontawesome.com/a40723187e.js"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="./index.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <div class="wrap">
+        <h1>
+          <p hidden>북북</p>
+          <svg
+            width="61"
+            height="66"
+            viewBox="0 0 61 66"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10.9684 46.3234L0.720418 46.4906L0 0.968689L7.81409 0.841207C13.4505 0.749252 17.7159 1.74212 20.6105 3.8198C23.5043 5.85413 24.9814 8.77888 25.0418 12.594C25.1104 16.9295 23.3674 20.1453 19.8129 22.2414C25.0538 24.1507 27.7179 27.8584 27.805 33.3644C27.8668 37.2662 26.5067 40.3891 23.7249 42.7328C20.9424 45.0332 16.6902 46.2301 10.9684 46.3234ZM10.9375 44.3725C12.9444 44.3398 14.7781 44.1581 16.4386 43.8274C18.0984 43.4534 19.6698 42.8857 21.1526 42.1243C22.6774 41.3188 23.8552 40.1721 24.6859 38.6842C25.5165 37.1962 25.9158 35.4334 25.8835 33.3957C25.8101 28.7568 23.5613 25.6495 19.1371 24.0738L15.2715 22.7058L18.8254 20.5663C21.7456 18.8708 23.1772 16.2238 23.1203 12.6254C23.0139 5.90549 17.9222 2.62774 7.84497 2.79215L1.95237 2.88828L2.61104 44.5083L10.9375 44.3725Z"
+              fill="white"
+            />
+            <path
+              d="M50.1554 65.1985L60.4034 65.0313L59.683 19.5094L51.8689 19.6369C46.2325 19.7288 42.0007 20.8603 39.1734 23.0314C36.3454 25.159 34.9616 28.1305 35.022 31.9456C35.0906 36.2811 36.9344 39.4383 40.5535 41.4175C35.3756 43.4967 32.8303 47.2894 32.9174 52.7954C32.9792 56.6972 34.4373 59.7741 37.2919 62.0259C40.1458 64.2343 44.4336 65.2919 50.1554 65.1985ZM50.1245 63.2476C48.1176 63.2803 46.2791 63.1585 44.609 62.8822C42.9382 62.5626 41.3498 62.0464 39.8436 61.3338C38.2941 60.5785 37.0806 59.4708 36.2033 58.0107C35.326 56.5505 34.8712 54.8017 34.8389 52.764C34.7655 48.1251 36.9148 44.9461 41.2869 43.2268L45.1072 41.7335L41.4875 39.711C38.5151 38.1116 37.0004 35.5127 36.9435 31.9143C36.8372 25.1944 41.8226 21.7522 51.8998 21.5878L57.7924 21.4917L58.451 63.1117L50.1245 63.2476Z"
+              fill="white"
+            />
+          </svg>
+        </h1>
+        <form class="search-form">
+          <input
+            type="text"
+            placeholder="무슨 책을 찾으시나요?👀"
+            class="search-input"
+            name="search-input"
+          />
+          <button>
+            <i class="fa-solid fa-magnifying-glass search-btn fa-lg btn"></i>
+          </button>
+        </form>
+        <a href="#" class="favorite-btn">찜한 도서들📖</a>
+      </div>
+    </header>
+    <main>
+      <div class="modal-wrap"></div>
+      <span class="loader"></span>
+      <div class="favorite-modal modal"></div>
+      <section class="cards-sec">
+        <div class="searched-word-con">
+          <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+          "<span class="searched-word"></span>"에 대한 검색 결과입니다.
+        </div>
+        <ul class="cards"></ul>
+      </section>
+      <div class="pagination-con">
+        <i class="fa-solid fa-arrow-left prev btn"></i>
+        <div class="page-btn-con"></div>
+        <i class="fa-solid fa-arrow-right next btn"></i>
+      </div>
+    </main>
+    <footer></footer>
+  </body>
+</html>
