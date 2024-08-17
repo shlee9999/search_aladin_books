@@ -364,7 +364,7 @@ li.card .price {
 .favorite-modal > .favorite-cards {
   margin: auto;
   width: 100%;
-  padding-bottom: 20px;
+  padding: 0 var(--padding-side) 20px;
   gap: 20px;
   display: grid;
   grid-template-columns: repeat(3, minmax(200px, 250px));
@@ -466,7 +466,7 @@ li.card .price {
     font-size: 1.2rem;
   }
   .favorite-modal > .favorite-cards {
-    padding: 0 10px;
+    padding: 0 calc(var(--padding-side) / 2);
   }
   .loader {
     width: 30px;
