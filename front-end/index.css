@@ -8,6 +8,7 @@
   --border-default: #d9d9d9;
   --text-default: #1e1e1e;
   --text-secondary: #757575;
+  --padding-side: 20px;
 }
 
 /* Common */
@@ -31,16 +32,21 @@ a:visited {
 a:hover {
   text-decoration: underline;
 }
-header,
-body,
+header > .wrap,
+body > .wrap,
 footer {
   min-width: var(--min-w);
+  padding: 0 var(--padding-side);
 }
 body {
   color: var(--text-default);
   font-family: 'Noto Sans KR', sans-serif;
   background-color: var(--f-color);
-  padding-bottom: 50px;
+}
+body > .wrap {
+  max-width: var(--max-w);
+  margin: auto;
+  padding-bottom: 50px !important;
 }
 button {
   background-color: transparent;
@@ -75,8 +81,8 @@ header {
 }
 header > svg.header-logo {
   cursor: pointer !;
-  background-color: tomato;
 }
+
 i.btn {
   cursor: pointer;
 }
@@ -88,7 +94,14 @@ i.btn,
 i.btn:active {
   color: var(--p-color) !important;
 }
-
+header i.favorite-btn {
+  transition: 0.15s;
+  color: white;
+  cursor: pointer;
+}
+header i.favorite-btn:hover {
+  color: var(--p-color);
+}
 header > .wrap {
   max-width: var(--max-w);
   margin: auto;
@@ -96,7 +109,8 @@ header > .wrap {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 10px 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .logo {
   color: var(--f-color);
@@ -106,7 +120,6 @@ header > .wrap {
   margin-left: 30px;
   margin-right: 30px;
   position: relative;
-  padding: 0;
   height: 45px;
 }
 .search-input {
@@ -123,7 +136,7 @@ header > .wrap {
 .search-input:focus {
   border-color: var(--p-color);
 }
-.search-input + button > .search-btn {
+.search-input + button > i.search-btn {
   position: absolute;
   top: 50%;
   right: 20px;
@@ -162,7 +175,7 @@ li.card {
   box-shadow: 0 2px 6px 2px rgba(0, 0, 0, 0.15);
   background-color: white;
   position: relative;
-  padding: 16px;
+  padding: 5%;
   border: 1px solid var(--border-default);
   border-radius: 8px;
   display: flex;
@@ -301,6 +314,8 @@ li.card .price {
   pointer-events: none;
 }
 .modal {
+  min-width: var(--min-w);
+  max-width: var(--max-w);
   left: 50%;
   top: 50%;
   translate: -50% -50%;
@@ -337,18 +352,19 @@ li.card .price {
   scrollbar-width: none; /* Firefox */
 }
 .favorite-modal > h2 {
+  box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.15);
   padding: 20px;
   position: sticky;
   top: 0;
   text-align: center;
-  background-color: var(--f-color);
+  background-color: var(--t-color);
   margin-bottom: 20px;
   z-index: 10;
 }
 .favorite-modal > .favorite-cards {
   margin: auto;
   width: 100%;
-  padding: 0 20px 20px;
+  padding-bottom: 20px;
   gap: 20px;
   display: grid;
   grid-template-columns: repeat(3, minmax(200px, 250px));
@@ -407,12 +423,55 @@ li.card .price {
     font-size: 0.6rem;
   }
 }
+/* 여기부터 모바일 */
 @media screen and (max-width: 600px) {
+  header,
+  body > .wrap,
+  footer {
+    padding: 0 calc(var(--padding-side) / 2);
+  }
   ul.cards {
     grid-template-columns: repeat(2, 1fr);
   }
   li.card {
     font-size: 1rem;
+  }
+  header > .wrap {
+    flex-direction: column;
+    gap: 10px;
+  }
+  header > .wrap > .search-form {
+    width: 100%;
+    flex: auto;
+  }
+  header > .wrap > .search-form > .search-input {
+    font-size: 1rem;
+    border-radius: 12px;
+  }
+  header > .wrap > .favorite-btn {
+    position: absolute;
+    top: 25px;
+    right: 15px;
+  }
+  main {
+    margin-top: calc(143px + var(--padding-side) / 2);
+  }
+  .favorite-modal {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+  .favorite-modal > h2 {
+    padding: 10px;
+    font-size: 1.2rem;
+  }
+  .loader {
+    width: 30px;
+    height: 30px;
+  }
+  .modal i.close-btn {
+    right: 15px;
+    font-size: 25px;
   }
 }
 @media screen and (max-width: 500px) {
