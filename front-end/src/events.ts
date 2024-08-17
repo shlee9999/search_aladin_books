@@ -120,11 +120,14 @@ const onSubmit = async (e: SubmitEvent) => {
 const onClickFavoriteBtn = async () => {
   renderLoader();
   Promise.all(
-    bookStorage
-      .getBooks()
-      .map((isbn13: string) =>
-        getBooks({ endpoint: 'lookup', itemId: isbn13, triggerLoader: false })
-      )
+    bookStorage.getBooks().map((isbn13: string) =>
+      getBooks({
+        endpoint: 'lookup',
+        itemId: isbn13,
+        triggerLoader: false,
+        triggerScroll: false,
+      })
+    )
   )
     .then((arr) => {
       console.log(arr);
@@ -143,12 +146,14 @@ const onClickFavoriteBtn = async () => {
 
 const onClickFavoriteModal = async (e: MouseEvent) => {
   const target = e.target as HTMLElement;
+  //* onClickCloseBtn
   if (target.matches('.favorite-modal .close-btn')) {
     closeFavoriteModal();
     const newBooks = await getBooks({
       page: currentPage,
       endpoint: currentEndpoint,
       query: currentInput,
+      triggerScroll: false,
     }); //* 찜 해제 도서 동기화를 위해 찜 목록에서 나오면 다시 렌더링해야함
     renderBooks({ books: newBooks });
   }

@@ -19,6 +19,7 @@ export interface GenerateUrlProps extends BaseApiProps {
 
 export interface GetBooksProps extends BaseApiProps {
   triggerLoader?: boolean;
+  triggerScroll?: boolean;
 }
 
 export interface BookInfo {

@@ -58,13 +58,14 @@ const getBooks = async ({
   page,
   itemId,
   triggerLoader = true,
+  triggerScroll = true,
 }: GetBooksProps): Promise<BookInfo[]> => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (triggerLoader) renderLoader();
+  triggerScroll && window.scrollTo({ top: 0, behavior: 'smooth' });
+  triggerLoader && renderLoader();
   try {
     const res = await fetch(generateUrl({ endpoint, query, page, itemId }));
     const data = await res.json();
-    if (triggerLoader) removeLoader();
+    triggerLoader && removeLoader();
     setTotalPages(Math.ceil(data.totalResults / BOOKS_PER_PAGE));
     // console.log(data);
     return data.item;
