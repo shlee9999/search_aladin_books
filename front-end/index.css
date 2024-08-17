@@ -465,6 +465,9 @@ li.card .price {
     padding: 10px;
     font-size: 1.2rem;
   }
+  .favorite-modal > .favorite-cards {
+    padding: 0 10px;
+  }
   .loader {
     width: 30px;
     height: 30px;
