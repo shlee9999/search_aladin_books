@@ -1,9 +1,14 @@
+import { BookInfo } from './types';
+
 class LocalStorage {
   #key;
   #books;
-  constructor(key) {
+  constructor(key: string) {
     this.#key = key;
-    this.#books = JSON.parse(localStorage.getItem(this.#key)) || [];
+    this.#books =
+      (JSON.parse(
+        localStorage.getItem(this.#key) as string
+      ) as BookInfo['isbn13'][]) || ([] as BookInfo['isbn13'][]);
   }
   save() {
     localStorage.setItem(this.#key, JSON.stringify(this.#books));
@@ -11,7 +16,7 @@ class LocalStorage {
   getBooks() {
     return this.#books;
   }
-  addBook({ isbn13 }) {
+  addBook({ isbn13 }: Pick<BookInfo, 'isbn13'>) {
     if (this.includes({ isbn13 })) {
       console.error('이미 찜한 책이에요.');
       return false;
@@ -24,13 +29,13 @@ class LocalStorage {
     this.save();
     return isbn13; //* 저장된 값 반환
   }
-  deleteBook({ isbn13 }) {
+  deleteBook({ isbn13 }: Pick<BookInfo, 'isbn13'>) {
     if (!this.includes({ isbn13 })) return false; //* 삭제할 대상 없음
     this.#books = this.#books.filter((book) => book !== isbn13);
     this.save();
     return true; //* 삭제 성공
   }
-  includes({ isbn13 }) {
+  includes({ isbn13 }: Pick<BookInfo, 'isbn13'>) {
     return this.#books.some((book) => book === isbn13);
   }
 }

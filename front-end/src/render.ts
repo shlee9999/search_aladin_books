@@ -1,5 +1,6 @@
-import bookStorage from './local_storage.js';
-import { $cardCon, $favoriteModal, $loader, $modalWrap } from './elements.js';
+import bookStorage from './local_storage.ts';
+import { $cardCon, $favoriteModal, $loader, $modalWrap } from './elements.ts';
+import { BookInfo } from './types.ts';
 
 //* Render Functions
 const createCardInnerHTML = ({
@@ -10,7 +11,7 @@ const createCardInnerHTML = ({
   title,
   cover,
   link,
-}) => ` 
+}: Omit<BookInfo, 'isbn13'>) => ` 
   <div class="img-wrap">
     <img
       src="${cover}"
@@ -44,7 +45,7 @@ const createCardComponent = ({
   title,
   cover,
   link,
-}) => {
+}: BookInfo) => {
   const $card = document.createElement('li');
   $card.classList.add('card');
   $card.dataset.isbn13 = isbn13;
@@ -58,36 +59,25 @@ const createCardComponent = ({
     link,
   });
   if (bookStorage.includes({ isbn13 })) {
-    // 찜한건 하트표시
+    // 찜한건 하트 칠하기
     $card
       .querySelector('.heart-btn')
-      .classList.replace('fa-regular', 'fa-solid');
+      ?.classList.replace('fa-regular', 'fa-solid');
   }
   return $card;
 };
-const renderBooks = ({ books, $parent = $cardCon }) => {
+const renderBooks = ({
+  books,
+  $parent = $cardCon,
+}: {
+  books: BookInfo[];
+  $parent?: HTMLElement;
+}) => {
   $parent.replaceChildren();
   const $fragment = new DocumentFragment();
   books.forEach((book) => {
-    const {
-      isbn13,
-      author,
-      description,
-      priceStandard,
-      publisher,
-      title,
-      cover,
-      link,
-    } = book;
     const $card = createCardComponent({
-      isbn13,
-      author,
-      description,
-      priceStandard,
-      publisher,
-      title,
-      cover,
-      link,
+      ...book,
     });
     $fragment.appendChild($card);
   });

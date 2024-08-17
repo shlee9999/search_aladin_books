@@ -1,4 +1,4 @@
-import { getBooks } from './apis.js';
+import { getBooks } from './apis.ts';
 import {
   $cardCon,
   $favoriteBtn,
@@ -9,17 +9,17 @@ import {
   $searchedWord,
   $searchForm,
   $searchInput,
-} from './elements.js';
-import { init } from './init.js';
-import bookStorage from './local_storage.js';
-import { alignPage, initializePaginationBtns } from './paginations.js';
+} from './elements.ts';
+import { init } from './init.ts';
+import bookStorage from './local_storage.ts';
+import { alignPage, initializePaginationBtns } from './paginations.ts';
 import {
   closeFavoriteModal,
   openFavoriteModal,
   removeLoader,
   renderBooks,
   renderLoader,
-} from './render.js';
+} from './render.ts';
 import {
   currentEndpoint,
   currentInput,
@@ -27,32 +27,36 @@ import {
   setCurrentEndpoint,
   setCurrentInput,
   totalPages,
-} from './states.js';
+} from './states.ts';
 
 //* Event Handlers
-const onClickCardCon = (e) => {
-  const { target } = e;
-  if (!(target.closest('.cards') || target.closest('.favorite-cards'))) return;
+const onClickCardCon = (e: MouseEvent) => {
+  const target = e.target as HTMLElement;
+  const $card = target.closest('.cards') || target.closest('.favorite-cards');
+
+  if (!$card) return;
+
   if (target.matches('.heart-btn')) {
-    //* onClickHeartBtn
+    const card = target.closest('li.card') as HTMLElement;
+    const isbn13 = card?.dataset.isbn13;
+    if (!isbn13) return;
     if (target.classList.contains('fa-regular')) {
       //* 찜 안한 상품
-      bookStorage.addBook({
-        isbn13: target.closest('li.card').dataset.isbn13, //* 찜 목록에 추가. 20개 넘어가면 false 반환 및 찜 안됨
-      }) && target.classList.replace('fa-regular', 'fa-solid');
+      if (bookStorage.addBook({ isbn13 })) {
+        target.classList.replace('fa-regular', 'fa-solid');
+      }
     } else if (target.classList.contains('fa-solid')) {
       //* 이미 찜한 상품
       target.classList.replace('fa-solid', 'fa-regular');
-      bookStorage.deleteBook({
-        isbn13: target.closest('li.card').dataset.isbn13,
-      }); //* 찜 목록에서 삭제
+      bookStorage.deleteBook({ isbn13 });
     }
   }
 };
-const onClickPagination = async (e) => {
-  const { target } = e;
+
+const onClickPagination = async (e: MouseEvent) => {
+  const target = e.target as HTMLElement;
   if (target.matches('.page-btn')) {
-    const page = +target.dataset.page;
+    const page = +target.dataset.page!;
     if (currentPage === page) return;
     const fetchedBooks = await getBooks({
       endpoint: currentEndpoint,
@@ -60,7 +64,7 @@ const onClickPagination = async (e) => {
       query: currentInput,
     });
     renderBooks({ books: fetchedBooks });
-    $paginationCon.querySelector('.page-btn.on').classList.remove('on');
+    $paginationCon.querySelector('.page-btn.on')?.classList.remove('on');
     target.classList.add('on');
     alignPage({ targetPage: page });
   }
@@ -72,8 +76,8 @@ const onClickPagination = async (e) => {
       page: currentPage - 1,
       query: currentInput,
     });
-    $prevPageBtn.classList.remove('on');
-    $prevPageBtn.previousElementSibling.classList.add('on');
+    $prevPageBtn?.classList.remove('on');
+    $prevPageBtn?.previousElementSibling?.classList.add('on');
     renderBooks({ books: fetchedBooks });
     alignPage({ targetPage: currentPage - 1 });
   }
@@ -85,14 +89,14 @@ const onClickPagination = async (e) => {
       page: currentPage + 1,
       query: currentInput,
     });
-    $prevPageBtn.classList.remove('on');
-    $prevPageBtn.nextElementSibling.classList.add('on');
+    $prevPageBtn?.classList.remove('on');
+    $prevPageBtn?.nextElementSibling?.classList.add('on');
     renderBooks({ books: fetchedBooks });
     alignPage({ targetPage: currentPage + 1 });
   }
 };
 
-const onSubmit = async (e) => {
+const onSubmit = async (e: SubmitEvent) => {
   e.preventDefault();
   if ($searchInput.value.trim() === currentInput) return; //현재 검색어와 같은 검색어 입력시 무시
   if (!$searchInput.value.trim()) {
@@ -108,7 +112,7 @@ const onSubmit = async (e) => {
   initializePaginationBtns({ totalPages });
   setCurrentEndpoint('search'); //! 여기서만 재할당됨
   renderBooks({ books: searchedBooks });
-  $searchedWord.parentElement.style.display = 'block';
+  $searchedWord.parentElement!.style.display = 'block';
   $searchedWord.textContent = $searchInput.value.trim();
   setCurrentInput($searchInput.value.trim());
   $searchInput.value = '';
@@ -118,11 +122,12 @@ const onClickFavoriteBtn = async () => {
   Promise.all(
     bookStorage
       .getBooks()
-      .map((isbn13) =>
+      .map((isbn13: string) =>
         getBooks({ endpoint: 'lookup', itemId: isbn13, triggerLoader: false })
       )
   )
     .then((arr) => {
+      console.log(arr);
       renderBooks({
         books: arr.map((res) => res[0]),
         $parent: $favoriteCardCon,
@@ -136,15 +141,8 @@ const onClickFavoriteBtn = async () => {
     });
 };
 
-//* Event Listeners
-$cardCon.addEventListener('mouseup', onClickCardCon);
-$favoriteCardCon.addEventListener('mouseup', onClickCardCon);
-$paginationCon.addEventListener('mouseup', onClickPagination);
-$searchForm.addEventListener('submit', onSubmit);
-$favoriteBtn.addEventListener('mouseup', onClickFavoriteBtn);
-$headerLogo.addEventListener('mouseup', init); //* 헤더 로고 클릭 시 첫 화면으로 돌아감
-$favoriteModal.addEventListener('mouseup', async (e) => {
-  const { target } = e;
+const onClickFavoriteModal = async (e: MouseEvent) => {
+  const target = e.target as HTMLElement;
   if (target.matches('.favorite-modal .close-btn')) {
     closeFavoriteModal();
     const newBooks = await getBooks({
@@ -154,4 +152,12 @@ $favoriteModal.addEventListener('mouseup', async (e) => {
     }); //* 찜 해제 도서 동기화를 위해 찜 목록에서 나오면 다시 렌더링해야함
     renderBooks({ books: newBooks });
   }
-});
+};
+//* Event Listeners
+$cardCon.addEventListener('mouseup', onClickCardCon);
+$favoriteCardCon.addEventListener('mouseup', onClickCardCon);
+$paginationCon.addEventListener('mouseup', onClickPagination);
+$searchForm.addEventListener('submit', onSubmit);
+$favoriteBtn.addEventListener('mouseup', onClickFavoriteBtn);
+$headerLogo.addEventListener('mouseup', init); //* 헤더 로고 클릭 시 첫 화면으로 돌아감
+$favoriteModal.addEventListener('mouseup', onClickFavoriteModal);
