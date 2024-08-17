@@ -127,6 +127,7 @@ const onClickFavoriteBtn = async () => {
       )
   )
     .then((arr) => {
+      console.log(arr);
       renderBooks({
         books: arr.map((res) => res[0]),
         $parent: $favoriteCardCon,

@@ -42,6 +42,8 @@ const generateUrl = ({
       break;
     case 'lookup':
       if (itemId) params.append('itemId', itemId);
+      break;
+
     default:
       throw new Error('Invalid type');
   }
