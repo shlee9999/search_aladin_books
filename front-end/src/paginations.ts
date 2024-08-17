@@ -1,25 +1,25 @@
-import { $paginationCon, $pageBtnCon } from './elements.js';
-import { setCurrentPage, currentPage, totalPages } from './states.js';
-import { generatePaginationNumbers } from './utils.js';
+import { $paginationCon, $pageBtnCon } from './elements.ts';
+import { setCurrentPage, currentPage, totalPages } from './states.ts';
+import { generatePaginationNumbers } from './utils.ts';
 
 //* Paginations
-const alignPage = ({ targetPage }) => {
+const alignPage = ({ targetPage }: { targetPage: number }) => {
   setCurrentPage(targetPage);
   const newPaginationNumbers = generatePaginationNumbers({
     currentPage,
     totalPages,
   });
-  [...$pageBtnCon.children].forEach(
+  ([...$pageBtnCon.children] as HTMLButtonElement[]).forEach(
     ($pageBtn) => ($pageBtn.style.display = 'none')
   );
 
   console.log(newPaginationNumbers, totalPages);
   newPaginationNumbers.forEach((page) => {
-    if ($pageBtnCon.children[page - 1])
-      $pageBtnCon.children[page - 1].style.display = 'inline-block';
+    const $pageBtn = $pageBtnCon.children[page - 1] as HTMLButtonElement;
+    $pageBtn.style.display = 'inline-block';
   });
 };
-const initializePaginationBtns = ({ totalPages }) => {
+const initializePaginationBtns = ({ totalPages }: { totalPages: number }) => {
   if (totalPages === 0) $paginationCon.style.display = 'none';
   else $paginationCon.style.display = 'flex';
 
@@ -30,8 +30,8 @@ const initializePaginationBtns = ({ totalPages }) => {
     if (page === 1) $newPageBtn.classList.add('on');
     $newPageBtn.classList.add('page-btn');
     $newPageBtn.classList.add('btn');
-    $newPageBtn.dataset.page = page;
-    $newPageBtn.textContent = page;
+    $newPageBtn.dataset.page = page + '';
+    $newPageBtn.textContent = page + '';
     $fragment.appendChild($newPageBtn);
   }
   $pageBtnCon.appendChild($fragment);
