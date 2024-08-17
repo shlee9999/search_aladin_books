@@ -32,8 +32,8 @@ a:visited {
 a:hover {
   text-decoration: underline;
 }
-header,
-body,
+header > .wrap,
+body > .wrap,
 footer {
   min-width: var(--min-w);
   padding: 0 var(--padding-side);
@@ -42,6 +42,10 @@ body {
   color: var(--text-default);
   font-family: 'Noto Sans KR', sans-serif;
   background-color: var(--f-color);
+}
+body > .wrap {
+  max-width: var(--max-w);
+  margin: auto;
   padding-bottom: 50px !important;
 }
 button {
@@ -77,8 +81,8 @@ header {
 }
 header > svg.header-logo {
   cursor: pointer !;
-  background-color: tomato;
 }
+
 i.btn {
   cursor: pointer;
 }
@@ -90,7 +94,14 @@ i.btn,
 i.btn:active {
   color: var(--p-color) !important;
 }
-
+header i.favorite-btn {
+  transition: 0.15s;
+  color: white;
+  cursor: pointer;
+}
+header i.favorite-btn:hover {
+  color: var(--p-color);
+}
 header > .wrap {
   max-width: var(--max-w);
   margin: auto;
@@ -98,7 +109,8 @@ header > .wrap {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 10px 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .logo {
   color: var(--f-color);
@@ -124,7 +136,7 @@ header > .wrap {
 .search-input:focus {
   border-color: var(--p-color);
 }
-.search-input + button > .search-btn {
+.search-input + button > i.search-btn {
   position: absolute;
   top: 50%;
   right: 20px;
@@ -340,18 +352,19 @@ li.card .price {
   scrollbar-width: none; /* Firefox */
 }
 .favorite-modal > h2 {
+  box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.15);
   padding: 20px;
   position: sticky;
   top: 0;
   text-align: center;
-  background-color: var(--f-color);
+  background-color: var(--t-color);
   margin-bottom: 20px;
   z-index: 10;
 }
 .favorite-modal > .favorite-cards {
   margin: auto;
   width: 100%;
-  padding: 0 20px 20px;
+  padding-bottom: 20px;
   gap: 20px;
   display: grid;
   grid-template-columns: repeat(3, minmax(200px, 250px));
@@ -413,7 +426,7 @@ li.card .price {
 /* 여기부터 모바일 */
 @media screen and (max-width: 600px) {
   header,
-  body,
+  body > .wrap,
   footer {
     padding: 0 calc(var(--padding-side) / 2);
   }
@@ -437,8 +450,8 @@ li.card .price {
   }
   header > .wrap > .favorite-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 25px;
+    right: 15px;
   }
   main {
     margin-top: calc(143px + var(--padding-side) / 2);
@@ -447,16 +460,17 @@ li.card .price {
     width: 100%;
     height: 100%;
     border-radius: 0;
-    padding: 0 calc(var(--padding-side) / 2);
   }
   .favorite-modal > h2 {
     padding: 10px;
+    font-size: 1.2rem;
   }
   .loader {
     width: 30px;
     height: 30px;
   }
   .modal i.close-btn {
+    right: 15px;
     font-size: 25px;
   }
 }

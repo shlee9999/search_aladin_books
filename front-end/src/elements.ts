@@ -19,7 +19,7 @@ const $favoriteCardCon = $favoriteModal?.querySelector(
 ) as HTMLUListElement;
 const $favoriteBtn = document.querySelector(
   '.favorite-btn'
-) as HTMLAnchorElement;
+) as HTMLButtonElement;
 const $headerLogo = document.querySelector(
   'svg.header-logo'
 ) as HTMLOrSVGImageElement;
