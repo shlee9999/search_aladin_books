@@ -134,6 +134,7 @@ const onClickFavoriteBtn = async () => {
       renderBooks({
         books: arr.map((res) => res[0]),
         $parent: $favoriteCardCon,
+        reverse: true,
       });
       removeLoader(); //* loader 종료 후 modal 열어야 modal wrapper 안 사라짐.
       openFavoriteModal();

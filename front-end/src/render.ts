@@ -69,9 +69,11 @@ const createCardComponent = ({
 const renderBooks = ({
   books,
   $parent = $cardCon,
+  reverse = false,
 }: {
   books: BookInfo[];
   $parent?: HTMLElement;
+  reverse?: boolean;
 }) => {
   $parent.replaceChildren();
   const $fragment = new DocumentFragment();
@@ -79,7 +81,7 @@ const renderBooks = ({
     const $card = createCardComponent({
       ...book,
     });
-    $fragment.appendChild($card);
+    reverse ? $fragment.prepend($card) : $fragment.appendChild($card);
   });
   $parent.appendChild($fragment);
 };
