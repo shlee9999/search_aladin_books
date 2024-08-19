@@ -176,7 +176,7 @@ li.card {
   background-color: white;
   position: relative;
   padding: 5%;
-  border: 1px solid var(--border-default);
+  border: 2px solid var(--border-default);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
