@@ -144,7 +144,7 @@ const onClickFavoriteBtn = async () => {
       console.error(error);
     });
 };
-const onClickCloseBtn = async (e: MouseEvent) => {
+const onClickCloseBtn = async () => {
   closeFavoriteModal();
   const newBooks = await getBooks({
     page: currentPage,
@@ -157,11 +157,11 @@ const onClickCloseBtn = async (e: MouseEvent) => {
 const onClickFavoriteModal = async (e: MouseEvent) => {
   const target = e.target as HTMLElement;
   if (target.matches('.favorite-modal .close-btn')) {
-    onClickCloseBtn(e);
+    onClickCloseBtn();
   }
   if (target.matches('.favorite-modal .del_all-btn')) {
     bookStorage.clear();
-    onClickCloseBtn(e);
+    onClickCloseBtn();
   }
 };
 //* Event Listeners
