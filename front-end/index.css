@@ -370,6 +370,18 @@ li.card .price {
   grid-template-columns: repeat(3, minmax(200px, 250px));
   justify-content: center;
 }
+.favorite-modal > .favorite-cards:empty::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  content: '⭐찜한 도서가 없어요!⭐';
+  color: var(--p-color);
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
 .favorite-modal .del_all-btn {
   position: absolute;
   font-size: 1.2rem;
