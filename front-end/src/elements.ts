@@ -25,6 +25,7 @@ const $headerLogo = document.querySelector(
 ) as HTMLOrSVGImageElement;
 const $modalWrap = document.querySelector('.modal-wrap') as HTMLDivElement;
 const $loader = document.querySelector('.loader') as HTMLSpanElement;
+
 export {
   $cardCon,
   $favoriteBtn,

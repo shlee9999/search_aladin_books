@@ -1,4 +1,9 @@
-import { $paginationCon, $searchInput, $searchedWord } from './elements.ts';
+import {
+  $cardCon,
+  $paginationCon,
+  $searchInput,
+  $searchedWord,
+} from './elements.ts';
 import { renderBooks } from './render.ts';
 import {
   totalPages,
@@ -23,6 +28,7 @@ const init = async () => {
   $paginationCon.style.display = 'flex';
   $searchInput.focus();
 };
-init();
+await init(); //* Top-level await, 모듈 스크립트에서만 사용 가능
+$cardCon.style.color = 'unset'; //* 페이지 첫 로딩 후 "검색 결과가 없어요!" 문구 표시. css에서 기본적으로 투명하게 해놓음
 
 export { init };
