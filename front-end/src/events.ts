@@ -1,6 +1,7 @@
 import { getBooks } from './apis.ts';
 import {
   $cardCon,
+  $delAllPopup,
   $favoriteBtn,
   $favoriteCardCon,
   $favoriteModal,
@@ -144,19 +145,34 @@ const onClickFavoriteBtn = async () => {
       console.error(error);
     });
 };
-
+const onClickCloseBtn = async () => {
+  closeFavoriteModal();
+  const newBooks = await getBooks({
+    page: currentPage,
+    endpoint: currentEndpoint,
+    query: currentInput,
+    triggerScroll: false,
+  }); //* 찜 해제 도서 동기화를 위해 찜 목록에서 나오면 다시 렌더링해야함
+  renderBooks({ books: newBooks });
+};
 const onClickFavoriteModal = async (e: MouseEvent) => {
   const target = e.target as HTMLElement;
-  //* onClickCloseBtn
   if (target.matches('.favorite-modal .close-btn')) {
-    closeFavoriteModal();
-    const newBooks = await getBooks({
-      page: currentPage,
-      endpoint: currentEndpoint,
-      query: currentInput,
-      triggerScroll: false,
-    }); //* 찜 해제 도서 동기화를 위해 찜 목록에서 나오면 다시 렌더링해야함
-    renderBooks({ books: newBooks });
+    onClickCloseBtn();
+  }
+  if (
+    target.closest('.favorite-modal .del_all-btn') &&
+    !bookStorage.isEmpty()
+  ) {
+    $delAllPopup.classList.add('on');
+  }
+  if (target.matches('.favorite-modal .del_all-popup .yes')) {
+    bookStorage.clear();
+    $delAllPopup.classList.remove('on');
+    onClickCloseBtn();
+  }
+  if (target.matches('.favorite-modal .del_all-popup .no')) {
+    $delAllPopup.classList.remove('on');
   }
 };
 //* Event Listeners

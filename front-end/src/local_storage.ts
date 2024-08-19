@@ -38,6 +38,13 @@ class LocalStorage {
   includes({ isbn13 }: Pick<BookInfo, 'isbn13'>) {
     return this.#books.some((book) => book === isbn13);
   }
+  clear() {
+    this.#books = [];
+    this.save();
+  }
+  isEmpty() {
+    return this.#books.length === 0;
+  }
 }
 const bookStorage = new LocalStorage('books');
 export default bookStorage;
