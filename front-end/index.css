@@ -324,13 +324,12 @@ li.card .price {
   width: 100px;
   height: 100px;
   border-radius: 16px;
-  overflow: hidden;
 }
 .modal i.close-btn {
   position: absolute;
   top: 50%;
   right: 25px;
-  /* translate: 0 -50%; */
+  translate: 0 -50%;
 }
 .modal-wrap.on,
 .modal.on {
@@ -382,6 +381,7 @@ li.card .price {
   font-weight: bold;
   text-align: center;
   margin-top: 20px;
+  width: 100%;
 }
 .favorite-modal .del_all-btn {
   position: absolute;
@@ -399,6 +399,52 @@ li.card .price {
 }
 .favorite-modal .del_all-btn .btn {
   margin-right: 2px;
+}
+.favorite-modal .del_all-popup {
+  transition: opacity 0.2s;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  background-color: var(--p-color);
+  padding: 60px;
+  border-radius: 10px;
+  color: white;
+  box-shadow: 0 2px 6px 2px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  overflow: hidden;
+}
+.favorite-modal .del_all-popup.on {
+  opacity: 1;
+  pointer-events: all;
+}
+.favorite-modal .del_all-popup .confirm-btn-con {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  height: 25px;
+}
+.favorite-modal .yes,
+.favorite-modal .no {
+  flex: 1;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.favorite-modal .yes:hover,
+.favorite-modal .no:hover {
+  filter: brightness(0.95);
+}
+.favorite-modal .yes {
+  background-color: var(--s-color);
+}
+.favorite-modal .no {
+  color: var(--text-default);
+  background-color: white;
 }
 .loader {
   position: fixed;

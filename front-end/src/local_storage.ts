@@ -42,6 +42,9 @@ class LocalStorage {
     this.#books = [];
     this.save();
   }
+  isEmpty() {
+    return this.#books.length === 0;
+  }
 }
 const bookStorage = new LocalStorage('books');
 export default bookStorage;

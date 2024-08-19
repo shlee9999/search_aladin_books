@@ -25,7 +25,7 @@ const $headerLogo = document.querySelector(
 ) as HTMLOrSVGImageElement;
 const $modalWrap = document.querySelector('.modal-wrap') as HTMLDivElement;
 const $loader = document.querySelector('.loader') as HTMLSpanElement;
-
+const $delAllPopup = document.querySelector('.del_all-popup') as HTMLDivElement;
 export {
   $cardCon,
   $favoriteBtn,
@@ -39,4 +39,5 @@ export {
   $searchForm,
   $searchInput,
   $searchedWord,
+  $delAllPopup,
 };

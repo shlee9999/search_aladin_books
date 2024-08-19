@@ -1,6 +1,7 @@
 import { getBooks } from './apis.ts';
 import {
   $cardCon,
+  $delAllPopup,
   $favoriteBtn,
   $favoriteCardCon,
   $favoriteModal,
@@ -159,9 +160,19 @@ const onClickFavoriteModal = async (e: MouseEvent) => {
   if (target.matches('.favorite-modal .close-btn')) {
     onClickCloseBtn();
   }
-  if (target.matches('.favorite-modal .del_all-btn')) {
+  if (
+    target.closest('.favorite-modal .del_all-btn') &&
+    !bookStorage.isEmpty()
+  ) {
+    $delAllPopup.classList.add('on');
+  }
+  if (target.matches('.favorite-modal .del_all-popup .yes')) {
     bookStorage.clear();
+    $delAllPopup.classList.remove('on');
     onClickCloseBtn();
+  }
+  if (target.matches('.favorite-modal .del_all-popup .no')) {
+    $delAllPopup.classList.remove('on');
   }
 };
 //* Event Listeners
