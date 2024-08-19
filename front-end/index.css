@@ -370,6 +370,23 @@ li.card .price {
   grid-template-columns: repeat(3, minmax(200px, 250px));
   justify-content: center;
 }
+.favorite-modal .del_all-btn {
+  position: absolute;
+  font-size: 1.2rem;
+  font-weight: 400;
+  top: 50%;
+  translate: 0 -50%;
+  right: 55px;
+  color: var(--p-color);
+  cursor: pointer;
+}
+.favorite-modal .del_all-btn:hover {
+  filter: brightness(0.95);
+  text-decoration: underline;
+}
+.favorite-modal .del_all-btn .btn {
+  margin-right: 2px;
+}
 .loader {
   position: fixed;
   left: 50%;
