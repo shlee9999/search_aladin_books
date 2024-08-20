@@ -15,7 +15,9 @@ import { init } from './init.ts';
 import bookStorage from './local_storage.ts';
 import { alignPage, initializePaginationBtns } from './paginations.ts';
 import {
+  closeDelAllPopup,
   closeFavoriteModal,
+  openDelAllPopup,
   openFavoriteModal,
   removeLoader,
   renderBooks,
@@ -53,7 +55,6 @@ const onClickCardCon = (e: MouseEvent) => {
     }
   }
 };
-
 const onClickPagination = async (e: MouseEvent) => {
   const target = e.target as HTMLElement;
   if (target.matches('.page-btn')) {
@@ -165,14 +166,15 @@ const onClickFavoriteModal = async (e: MouseEvent) => {
     !bookStorage.isEmpty()
   ) {
     $delAllPopup.classList.add('on');
+    openDelAllPopup();
   }
   if (target.matches('.favorite-modal .del_all-popup .yes')) {
     bookStorage.clear();
-    $delAllPopup.classList.remove('on');
+    closeDelAllPopup();
     onClickCloseBtn();
   }
   if (target.matches('.favorite-modal .del_all-popup .no')) {
-    $delAllPopup.classList.remove('on');
+    closeDelAllPopup();
   }
 };
 //* Event Listeners

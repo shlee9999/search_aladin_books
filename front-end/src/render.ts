@@ -1,5 +1,12 @@
 import bookStorage from './local_storage.ts';
-import { $cardCon, $favoriteModal, $loader, $modalWrap } from './elements.ts';
+import {
+  $cardCon,
+  $delAllPopup,
+  $favoriteCardCon,
+  $favoriteModal,
+  $loader,
+  $modalWrap,
+} from './elements.ts';
 import { BookInfo } from './types.ts';
 
 //* Render Functions
@@ -105,6 +112,15 @@ const closeFavoriteModal = () => {
   $favoriteModal.classList.remove('on');
   document.body.style.overflowY = 'auto';
 };
+
+const openDelAllPopup = () => {
+  $delAllPopup.classList.add('on');
+  $favoriteCardCon.style.pointerEvents = 'none';
+};
+const closeDelAllPopup = () => {
+  $delAllPopup.classList.remove('on');
+  $favoriteCardCon.style.pointerEvents = 'all';
+};
 export {
   closeFavoriteModal,
   createCardComponent,
@@ -113,4 +129,6 @@ export {
   removeLoader,
   renderBooks,
   renderLoader,
+  openDelAllPopup,
+  closeDelAllPopup,
 };
