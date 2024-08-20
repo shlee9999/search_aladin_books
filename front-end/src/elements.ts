@@ -26,6 +26,9 @@ const $headerLogo = document.querySelector(
 const $modalWrap = document.querySelector('.modal-wrap') as HTMLDivElement;
 const $loader = document.querySelector('.loader') as HTMLSpanElement;
 const $delAllPopup = document.querySelector('.del_all-popup') as HTMLDivElement;
+const $floatingBtnCon = document.querySelector(
+  '.floating-btn-con'
+) as HTMLDivElement;
 export {
   $cardCon,
   $favoriteBtn,
@@ -40,4 +43,5 @@ export {
   $searchInput,
   $searchedWord,
   $delAllPopup,
+  $floatingBtnCon,
 };

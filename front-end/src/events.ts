@@ -5,6 +5,7 @@ import {
   $favoriteBtn,
   $favoriteCardCon,
   $favoriteModal,
+  $floatingBtnCon,
   $headerLogo,
   $paginationCon,
   $searchedWord,
@@ -175,6 +176,20 @@ const onClickFavoriteModal = async (e: MouseEvent) => {
     $delAllPopup.classList.remove('on');
   }
 };
+const onClickFloatingBtnCon = (e: MouseEvent) => {
+  const target = e.target as HTMLElement;
+  if (target.closest('.floating-btn-con .floating-btn')) {
+    $floatingBtnCon.classList.toggle('on');
+  }
+  if (target.closest('.floating-btn-con .search-btn')) {
+    $floatingBtnCon.classList.toggle('on');
+    console.log('search btn');
+  }
+  if (target.closest('.floating-btn-con .favorite-btn')) {
+    openFavoriteModal();
+    $floatingBtnCon.classList.remove('on');
+  }
+};
 //* Event Listeners
 $cardCon.addEventListener('mouseup', onClickCardCon);
 $favoriteCardCon.addEventListener('mouseup', onClickCardCon);
@@ -183,3 +198,4 @@ $searchForm.addEventListener('submit', onSubmit);
 $favoriteBtn.addEventListener('mouseup', onClickFavoriteBtn);
 $headerLogo.addEventListener('mouseup', init); //* 헤더 로고 클릭 시 첫 화면으로 돌아감
 $favoriteModal.addEventListener('mouseup', onClickFavoriteModal);
+$floatingBtnCon.addEventListener('mouseup', onClickFloatingBtnCon);

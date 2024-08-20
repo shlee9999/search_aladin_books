@@ -464,6 +464,62 @@ li.card .price {
   display: block;
 }
 
+.floating-btn-con {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1;
+}
+
+.floating-btn-con > button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--p-color);
+  box-shadow: 0 2px 6px 2px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+.floating-btn-con > button > i {
+  color: white;
+  font-size: 0.9rem;
+}
+.floating-btn-con > button:first-child {
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+}
+.floating-btn-con > button:not(:first-child) {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transition: translate 0.2s;
+  translate: -50% -50%;
+  z-index: -1;
+}
+.floating-btn-con.on > button:nth-child(2) {
+  translate: -50% calc(-50% - 45px);
+}
+.floating-btn-con.on > button:nth-child(3) {
+  translate: -50% calc(-50% - 85px);
+}
+.floating-btn-con > .search-btn {
+  position: relative;
+}
+.floating-btn-con > .search-btn > .search-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.floating-btn-con > button:hover {
+  filter: brightness(0.9);
+}
+.floating-btn > i {
+  color: white;
+}
+
 @keyframes rotate {
   from {
     rotate: 0;

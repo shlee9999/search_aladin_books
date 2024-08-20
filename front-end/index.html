@@ -20,26 +20,40 @@
     <script type="module" src="./src/events.ts" defer></script>
   </head>
   <body>
+    <div class="modal-wrap"></div>
+    <span class="loader"></span>
+    <div class="favorite-modal modal">
+      <span class="del_all-popup"
+        >찜한 도서를 모두 지우시겠어요?
+        <div class="confirm-btn-con">
+          <button class="yes">네</button>
+          <button class="no">아니오</button>
+        </div></span
+      >
+      <h2>
+        <span>📖즐겨찾는 도서📖</span
+        ><span class="del_all-btn">
+          <i class="fa-regular fa-trash-can"></i>
+        </span>
+        <i class="fa-solid fa-xmark btn close-btn"></i>
+      </h2>
+      <ul class="favorite-cards"></ul>
+    </div>
+
+    <div class="floating-btn-con">
+      <button class="floating-btn">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+      <button class="search-btn">
+        <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+        <input type="text" class="search-input" />
+      </button>
+      <button class="favorite-btn">
+        <i class="fa-regular fa-heart"></i>
+      </button>
+    </div>
+
     <div class="wrap">
-      <div class="modal-wrap"></div>
-      <span class="loader"></span>
-      <div class="favorite-modal modal">
-        <span class="del_all-popup"
-          >찜한 도서를 모두 지우시겠어요?
-          <div class="confirm-btn-con">
-            <button class="yes">네</button>
-            <button class="no">아니오</button>
-          </div></span
-        >
-        <h2>
-          <span>📖즐겨찾는 도서📖</span
-          ><span class="del_all-btn">
-            <i class="fa-regular fa-trash-can"></i>
-          </span>
-          <i class="fa-solid fa-xmark btn close-btn"></i>
-        </h2>
-        <ul class="favorite-cards"></ul>
-      </div>
       <header>
         <div class="wrap">
           <h1>
